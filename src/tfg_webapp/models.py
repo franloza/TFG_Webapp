@@ -1,11 +1,13 @@
 from __future__ import unicode_literals
 
+import os
+
 from django.db import models
 from profiles.models import Profile
 
 
 def generate_filename(self, filename):
-    url = '{0}/{1}/{2}'.format('data_files', self.settings.profile.slug,filename)
+    url = '{0}/{1}/{2}'.format('data_files', self.settings.profile.slug, filename)
     return url
 
 
@@ -23,3 +25,6 @@ class DataFile(models.Model):
 
     def __str__(self):
         return "{}". format(str(self.data_file.file.name))
+
+    def filename(self):
+        return os.path.basename(self.data_file.name)

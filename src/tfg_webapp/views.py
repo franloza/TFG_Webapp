@@ -23,8 +23,19 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
     http_method_names = ['get', 'post']
 
     def get(self, request, *args, **kwargs):
+        user = self.request.user
         if "data_file_form" not in kwargs:
             kwargs["data_file_form"] = forms.DataFileForm()
+
+        # Add report settings to the page documents for the list page
+        try:
+            report_settings = ReportSettings.objects.get(profile=user.profile)
+            kwargs["data_files"] = DataFile.objects.filter(settings=report_settings)
+        except ReportSettings.DoesNotExist:
+            pass
+        except DataFile.DoesNotExist:
+            pass
+
         return super(ReportPage, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):

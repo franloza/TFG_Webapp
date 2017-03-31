@@ -32,6 +32,24 @@
 	            </div>
              </div>
 
+             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3><strong> Select data files </strong></h3>
+	            </div>
+	            <div class="panel-body">
+	                 <!-- List of uploaded data_files -->
+                    {% if data_files %}
+                        <ul>
+                            {% for data_file in data_files %}
+                                <li><a href="{{ data_file.data_file.url }}">{{ data_file.filename }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No data files.</p>
+                    {% endif %}
+	            </div>
+             </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3><strong>Columns</strong></h3>
