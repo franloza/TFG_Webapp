@@ -2,7 +2,7 @@
 
 # tfg_webapp
 
-TFG WebApp is a web application that contains the Python application developed in my [TFG repository][github.com/franloza/tfg]. It is built with [Python][0] using the [Django Web Framework][1].
+TFG WebApp is a web application that contains the Python application developed in my [TFG repository](http://github.com/franloza/tfg). It is built with [Python][0] using the [Django Web Framework][1].
 
 This project has the following basic apps:
 
