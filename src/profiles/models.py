@@ -4,7 +4,6 @@ import uuid
 from django.db import models
 from django.conf import settings
 
-
 class BaseProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 primary_key=True)

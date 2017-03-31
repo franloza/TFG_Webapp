@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+
+<!-- Benefits of the Django application -->
+{% block container %}
+
+<div class="container text-page">
+  <div class="row">
+    <div class="col-sm-12">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2> Report generation </h2>
+	            </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3><strong> Upload data files </strong></h3>
+	            </div>
+	            <div class="panel-body">
+	                <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ data_file_form.as_p }}
+                        <button type="submit">Upload</button>
+                    </form>
+	            </div>
+             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3><strong>Columns</strong></h3>
+	            </div>
+	            <div class="panel-body">
+                    <div class="btn-group" data-toggle="buttons">
+                      <label class="btn btn-primary active">
+                        <input type="checkbox" checked autocomplete="off"> Mean
+                      </label>
+                      <label class="btn btn-primary active">
+                        <input type="checkbox" checked autocomplete="off"> Standard deviation
+                      </label>
+                      <label class="btn btn-primary active">
+                        <input type="checkbox" checked autocomplete="off"> Maximum
+                      </label>
+                      <label class="btn btn-primary active">
+                        <input type="checkbox" checked autocomplete="off"> Minimum
+                      </label>
+                      <label class="btn btn-primary active">
+                        <input type="checkbox" checked autocomplete="off"> MAGE
+                      </label>
+                    </div>
+	            </div>
+             </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+

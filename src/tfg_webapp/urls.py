@@ -11,7 +11,9 @@ urlpatterns = [
     url(r'^about/$', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^report/$', views.ReportPage.as_view(), name='report'),
     url(r'^', include(accounts.urls, namespace='accounts')),
+
 ]
 
 # User-uploaded files like profile pics need to be served in development
