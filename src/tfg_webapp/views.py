@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from tfg_webapp.forms import ColumnsForm
 from tfg_webapp.models import ReportSettings, DataFile
 from . import forms
 from django.contrib import messages
@@ -31,6 +32,8 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
         try:
             report_settings = ReportSettings.objects.get(user=user)
             kwargs["data_files"] = DataFile.objects.filter(settings=report_settings)
+            kwargs["columns_form"] = ColumnsForm()
+            kwargs["checked_columns"] = report_settings.columns
 
         except ReportSettings.DoesNotExist:
             pass
@@ -40,23 +43,36 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
         return super(ReportPage, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+
         user = self.request.user
         settings = ReportSettings.objects.get(user=user)
-        data_file = DataFile(settings=settings)
-        data_file = forms.DataFileForm(request.POST, request.FILES, instance=data_file)
-
-        if not data_file.is_valid():
-            messages.error(request, "There was a problem with the form. "
-                           "Please check the details.")
+        if "upload_file" in request.POST:
             data_file = DataFile(settings=settings)
-            data_file_form = forms.DataFileForm(instance=data_file)
-            return super(ReportPage, self).get(request, data_file_form=data_file_form)
+            data_file = forms.DataFileForm(request.POST, request.FILES, instance=data_file)
 
-        # Forms is fine. Time to save!
-        data_file.save()
-        messages.success(request, "Data file uploaded")
-        logger.info('{} has uploaded a data file')
-        return redirect("report")
+            if not data_file.is_valid():
+                messages.error(request, "There was a problem with the form. "
+                               "Please check the details.")
+                data_file = DataFile(settings=settings)
+                data_file_form = forms.DataFileForm(instance=data_file)
+                return super(ReportPage, self).get(request, data_file_form=data_file_form)
+
+            # Forms is fine. Time to save!
+            data_file.save()
+            messages.success(request, "Data file uploaded")
+            logger.info('{} has uploaded a data file')
+            return redirect("report")
+        elif "generate_report" in request.POST:
+            print(request.POST)
+            columns = request.POST["columns"]
+            if not forms.ColumnsForm(request.POST).is_valid():
+                messages.error(request, "There was a problem with the column selection. "
+                                        "Please check the details.")
+                return redirect("report")
+            print(columns)
+            messages.success(request, "Report has been generated successfully")
+            return redirect("report")
+
 
     def delete_datafile(request,  *args, **kwargs):
         pk =  kwargs["pk"]

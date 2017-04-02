@@ -21,7 +21,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3><strong> Uploaded data files </strong></h3>
+                    <h3><strong> Data files </strong></h3>
 	            </div>
 	            <div class="panel-body">
 	                 <!-- List of uploaded data_files -->
@@ -41,42 +41,40 @@
              </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3><strong> Upload data files </strong></h3>
-	            </div>
 	            <div class="panel-body">
 	                <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ data_file_form.as_p }}
-                        <button type="submit">Upload</button>
+                        <button name="upload_file" type="submit" class="btn btn-default">Upload</button>
                     </form>
 	            </div>
              </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3><strong>Columns</strong></h3>
-	            </div>
-	            <div class="panel-body">
-                    <div class="btn-group" data-toggle="buttons">
-                      <label class="btn btn-primary active">
-                        <input type="checkbox" checked autocomplete="off"> Mean
-                      </label>
-                      <label class="btn btn-primary active">
-                        <input type="checkbox" checked autocomplete="off"> Standard deviation
-                      </label>
-                      <label class="btn btn-primary active">
-                        <input type="checkbox" checked autocomplete="off"> Maximum
-                      </label>
-                      <label class="btn btn-primary active">
-                        <input type="checkbox" checked autocomplete="off"> Minimum
-                      </label>
-                      <label class="btn btn-primary active">
-                        <input type="checkbox" checked autocomplete="off"> MAGE
-                      </label>
+            <form method="post">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3><strong>Columns</strong></h3>
                     </div>
-	            </div>
-             </div>
+                    <div class="panel-body">
+                        {% csrf_token %}
+                        {% for value, text in columns_form.columns.field.choices %}
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-primary active">
+                               <input id="id_columns_{{ forloop.counter0 }}" name="{{ columns_form.columns.name }}" type="checkbox" value="{{ value }}"
+                                   {% if value in checked_columns %} checked="checked" {% endif %}> {{ text }}
+                            </label>
+                         </div>
+                        {% endfor %}
+
+                    </div>
+                 </div>
+                 <div class="panel panel-default">
+                    <div class="panel-body">
+                     <input type="submit" name="generate_report" value="Generate report" class="btn btn-success">
+                    </div>
+                 </div>
+            </form>
+            </div>
         </div>
     </div>
   </div>

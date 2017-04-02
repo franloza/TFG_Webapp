@@ -4,6 +4,7 @@ import os
 
 from django.db import models
 from django.conf import settings
+from multiselectfield import MultiSelectField
 
 
 def generate_filename(self, filename):
@@ -12,11 +13,19 @@ def generate_filename(self, filename):
 
 
 class ReportSettings(models.Model):
+
+    COLUMN_TYPES = (('Mean', 'Mean'),
+              ('Std', 'Standard deviation'),
+              ('Max', 'Maximum'),
+              ('Min', 'Minimum'),
+              ('MAGE', 'MAGE'))
+
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         primary_key=True,
         on_delete=models.CASCADE,
     )
+    columns = MultiSelectField(choices=COLUMN_TYPES, default="Mean,Std,Max,Min,MAGE")
 
 
 class DataFile(models.Model):
