@@ -29,8 +29,9 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
 
         # Add report settings to the page documents for the list page
         try:
-            report_settings = ReportSettings.objects.get(profile=user.profile)
+            report_settings = ReportSettings.objects.get(user=user)
             kwargs["data_files"] = DataFile.objects.filter(settings=report_settings)
+
         except ReportSettings.DoesNotExist:
             pass
         except DataFile.DoesNotExist:
@@ -40,7 +41,7 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
 
     def post(self, request, *args, **kwargs):
         user = self.request.user
-        settings = ReportSettings.objects.get(profile=user.profile)
+        settings = ReportSettings.objects.get(user=user)
         data_file = DataFile(settings=settings)
         data_file = forms.DataFileForm(request.POST, request.FILES, instance=data_file)
 
@@ -56,4 +57,18 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
         messages.success(request, "Data file uploaded")
         logger.info('{} has uploaded a data file')
         return redirect("report")
+
+    def delete_datafile(request,  *args, **kwargs):
+        pk =  kwargs["pk"]
+        df = DataFile.objects.get(pk=pk)
+        user = request.user
+        settings = ReportSettings.objects.get(user=user)
+        if(df.settings == settings):
+            df.delete()
+            messages.success(request, "Data file deleted")
+            logger.info('{} has deleted a data file')
+        else:
+            messages.error(request, "There was a problem deleting the file. Try again")
+        return redirect("report")
+
 

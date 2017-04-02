@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -11,12 +12,15 @@ logger = logging.getLogger("project")
 def create_profile_handler(sender, instance, created, **kwargs):
     if not created:
         return
+
     # Create the profile object, only if it is newly created
     profile = models.Profile(user=instance)
     profile.save()
     logger.info('New user profile for {} created'.format(instance))
-    report_settings = ReportSettings(profile=profile)
+    report_settings = ReportSettings(user=instance)
     report_settings.save()
-    logger.info('New settings for {} created'.format(profile))
+    logger.info('New settings for {} created'.format(instance))
+
+
 
 
