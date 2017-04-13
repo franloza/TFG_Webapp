@@ -1,12 +1,22 @@
+import codecs
+import tempfile
+
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 from tfg_webapp.forms import ColumnsForm
 from tfg_webapp.models import ReportSettings, DataFile
+from tfg_webapp.settings.base import BASE_DIR, MEDIA_ROOT
 from . import forms
-from django.contrib import messages
+from lib.glycemic_patterns.model.Model import Model
+from os.path import join
+from os import sep
+
 import logging
+
 
 logger = logging.getLogger("project")
 
@@ -70,7 +80,21 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             settings.columns = columns
             settings.save()
             messages.success(request, "Report has been generated successfully")
-            return redirect("report")
+
+            # Generate report
+            data_files = DataFile.objects.filter(settings=settings)
+            filepaths = [join(BASE_DIR, *(data_file.data_file.url.split(sep))) for data_file in data_files]
+            metadata = {"Patient_Name": user.name,
+                        "Media_Path": join(MEDIA_ROOT, 'trees'),
+                        "UUID": user.profile.slug}
+            trees = Model(filepaths, metadata)
+            trees.fit()
+            report = trees.generate_report()
+
+            # Creating http response
+            response = HttpResponse(report, content_type='application/pdf')
+            response['Content-Disposition'] = 'filename="report.pdf"'
+            return response
 
 
     def delete_datafile(request,  *args, **kwargs):
@@ -85,5 +109,7 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
         else:
             messages.error(request, "There was a problem deleting the file. Try again")
         return redirect("report")
+
+
 
 

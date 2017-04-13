@@ -1,0 +1,3 @@
+[submodule "src/lib/glycemic_patterns"]
+	path = src/lib/glycemic_patterns
+	url = https://github.com/franloza/glycemic-patterns
