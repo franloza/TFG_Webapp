@@ -34,7 +34,6 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             kwargs["data_files"] = DataFile.objects.filter(settings=report_settings)
             kwargs["columns_form"] = ColumnsForm()
             kwargs["checked_columns"] = report_settings.columns
-
         except ReportSettings.DoesNotExist:
             pass
         except DataFile.DoesNotExist:
@@ -63,13 +62,13 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             logger.info('{} has uploaded a data file')
             return redirect("report")
         elif "generate_report" in request.POST:
-            print(request.POST)
-            columns = request.POST["columns"]
-            if not forms.ColumnsForm(request.POST).is_valid():
-                messages.error(request, "There was a problem with the column selection. "
+            columns = request.POST.getlist("columns")
+            if columns and not forms.ColumnsForm(request.POST).is_valid():
+                messages.error(request, "There was a problem with the column selection."
                                         "Please check the details.")
                 return redirect("report")
-            print(columns)
+            settings.columns = columns
+            settings.save()
             messages.success(request, "Report has been generated successfully")
             return redirect("report")
 

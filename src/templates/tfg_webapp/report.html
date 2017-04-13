@@ -59,9 +59,8 @@
                         {% csrf_token %}
                         {% for value, text in columns_form.columns.field.choices %}
                         <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-primary active">
-                               <input id="id_columns_{{ forloop.counter0 }}" name="{{ columns_form.columns.name }}" type="checkbox" value="{{ value }}"
-                                   {% if value in checked_columns %} checked="checked" {% endif %}> {{ text }}
+                            <label class="btn btn-primary{% if value in checked_columns %} active {% endif %}">
+                               <input id="id_columns_{{ forloop.counter0 }}" name="{{ columns_form.columns.name }}" type="checkbox" value="{{ value }}" {% if value in checked_columns %} checked {% endif %}> {{ text }}
                             </label>
                          </div>
                         {% endfor %}
