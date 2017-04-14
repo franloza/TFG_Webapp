@@ -53,7 +53,7 @@
             <form method="post">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3><strong>Columns</strong></h3>
+                        <h3><strong>Features</strong></h3>
                     </div>
                     <div class="panel-body">
                         {% csrf_token %}
@@ -69,7 +69,7 @@
                  </div>
                  <div class="panel panel-default">
                     <div class="panel-body">
-                     <input type="submit" name="generate_report" value="Generate report" class="btn btn-success">
+                     <input type="submit" name="generate_report" value="Generate report" class="btn btn-success" {% if not data_files %} disabled {% endif %}>
                     </div>
                  </div>
             </form>

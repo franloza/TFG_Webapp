@@ -74,7 +74,7 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
         elif "generate_report" in request.POST:
             columns = request.POST.getlist("columns")
             if columns and not forms.ColumnsForm(request.POST).is_valid():
-                messages.error(request, "There was a problem with the column selection."
+                messages.error(request, "There was a problem with the feature selection."
                                         "Please check the details.")
                 return redirect("report")
             settings.columns = columns
@@ -84,17 +84,21 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             # Generate report
             data_files = DataFile.objects.filter(settings=settings)
             filepaths = [join(BASE_DIR, *(data_file.data_file.url.split(sep))) for data_file in data_files]
-            metadata = {"Patient_Name": user.name,
-                        "Media_Path": join(MEDIA_ROOT, 'trees'),
-                        "UUID": user.profile.slug}
-            trees = Model(filepaths, metadata)
-            trees.fit()
-            report = trees.generate_report()
+            if filepaths:
+                metadata = {"Patient_Name": user.name,
+                            "Media_Path": join(MEDIA_ROOT, 'trees'),
+                            "UUID": user.profile.slug}
+                trees = Model(filepaths, metadata=metadata)
+                trees.fit(columns)
+                report = trees.generate_report(save_file=False)
 
-            # Creating http response
-            response = HttpResponse(report, content_type='application/pdf')
-            response['Content-Disposition'] = 'filename="report.pdf"'
-            return response
+                # Creating http response
+                response = HttpResponse(report, content_type='application/pdf')
+                response['Content-Disposition'] = 'filename="report.pdf"'
+                return response
+            else:
+                messages.error(request, "It is necessary to upload a datafile before generating a report")
+                return redirect("report")
 
 
     def delete_datafile(request,  *args, **kwargs):

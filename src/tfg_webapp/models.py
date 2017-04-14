@@ -4,6 +4,7 @@ import os
 
 from django.db import models
 from django.conf import settings
+from django.dispatch import receiver
 from multiselectfield import MultiSelectField
 
 
@@ -38,4 +39,12 @@ class DataFile(models.Model):
     def __str__(self):
         return "{}". format(os.path.basename(self.data_file.name))
 
+@receiver(models.signals.post_delete, sender=DataFile)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    """Deletes file from filesystem
+    when corresponding `MediaFile` object is deleted.
+    """
+    if instance.data_file:
+        if os.path.isfile(instance.data_file.path):
+            os.remove(instance.data_file.path)
 
