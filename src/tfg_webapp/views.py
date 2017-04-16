@@ -11,7 +11,7 @@ from tfg_webapp.forms import ColumnsForm
 from tfg_webapp.models import ReportSettings, DataFile
 from tfg_webapp.settings.base import BASE_DIR, MEDIA_ROOT
 from . import forms
-from lib.glycemic_patterns.model.Model import Model
+from lib.glycemic_patterns.glycemic_patterns.model import Model
 from os.path import join
 from os import sep
 
@@ -86,11 +86,10 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             filepaths = [join(BASE_DIR, *(data_file.data_file.url.split(sep))) for data_file in data_files]
             if filepaths:
                 metadata = {"Patient_Name": user.name,
-                            "Media_Path": join(MEDIA_ROOT, 'trees'),
                             "UUID": user.profile.slug}
                 trees = Model(filepaths, metadata=metadata)
                 trees.fit(columns)
-                report = trees.generate_report(save_file=False)
+                report = trees.generate_report(output_path=join(MEDIA_ROOT, 'trees'), to_file=False)
 
                 # Creating http response
                 response = HttpResponse(report, content_type='application/pdf')
