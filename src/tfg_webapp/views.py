@@ -7,11 +7,11 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
+from lib.glycemic_patterns.glycemic_patterns.model.Model import Model, DataFormatException
 from tfg_webapp.forms import ColumnsForm
 from tfg_webapp.models import ReportSettings, DataFile
 from tfg_webapp.settings.base import BASE_DIR, MEDIA_ROOT
 from . import forms
-from lib.glycemic_patterns.glycemic_patterns.model import Model
 from os.path import join
 from os import sep
 
@@ -79,7 +79,6 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
                 return redirect("report")
             settings.columns = columns
             settings.save()
-            messages.success(request, "Report has been generated successfully")
 
             # Generate report
             data_files = DataFile.objects.filter(settings=settings)
@@ -87,17 +86,25 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             if filepaths:
                 metadata = {"Patient_Name": user.name,
                             "UUID": user.profile.slug}
-                trees = Model(filepaths, metadata=metadata)
+                try:
+                    trees = Model(filepaths, metadata=metadata)
+                except DataFormatException as e:
+                    messages.error(request, '{} .Please, upload a different data file'.format(e))
+                    return redirect("report")
+
                 trees.fit(columns)
                 report = trees.generate_report(output_path=join(MEDIA_ROOT, 'trees'), to_file=False)
 
                 # Creating http response
                 response = HttpResponse(report, content_type='application/pdf')
                 response['Content-Disposition'] = 'filename="report.pdf"'
+                messages.success(request, "Report has been generated successfully")
                 return response
             else:
                 messages.error(request, "It is necessary to upload a datafile before generating a report")
                 return redirect("report")
+
+
 
 
     def delete_datafile(request,  *args, **kwargs):
