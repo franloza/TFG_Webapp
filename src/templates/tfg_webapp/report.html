@@ -64,20 +64,30 @@
                             </label>
                          </div>
                         {% endfor %}
-
                     </div>
                  </div>
                  <div class="panel panel-default">
-                    <div class="panel-body">
-                     <input type="submit" name="generate_report" value="Generate report" class="btn btn-success" {% if not data_files %} disabled {% endif %}>
+                    <div class="panel-heading">
+                        <h3><strong>Settings</strong></h3>
                     </div>
+                    <div class="panel-body">
+                      <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-primary {% if info_blocks %} active {% endif %}">
+                               <input id="id_info_blocks" name="info_blocks" type="checkbox" {% if info_blocks %} checked {% endif %}> Include block information
+                            </label>
+                         </div>
+                    </div>
+                     <div class="panel panel-default">
+                        <div class="panel-body">
+                         <input type="submit" name="generate_report" value="Generate report" class="btn btn-success" {% if not data_files %} disabled {% endif %}>
+                        </div>
+                     </div>
                  </div>
             </form>
             </div>
         </div>
     </div>
   </div>
-</div>
 
 {% endblock %}
 

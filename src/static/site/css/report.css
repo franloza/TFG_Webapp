@@ -1,0 +1,11 @@
+.panel-body .btn-primary {
+    color: #ffffff;
+    background-color: #787a86;
+    border-color: #5e5d69;
+}
+
+.panel-body  .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: #106a8c;
+    border-color: #0c516c;
+}

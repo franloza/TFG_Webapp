@@ -26,6 +26,7 @@ class ReportSettings(models.Model):
         on_delete=models.CASCADE,
     )
     columns = MultiSelectField(choices=COLUMN_TYPES, default="Mean,Std,Max,Min,MAGE")
+    info_blocks = models.BooleanField(default=True)
 
 
 class DataFile(models.Model):

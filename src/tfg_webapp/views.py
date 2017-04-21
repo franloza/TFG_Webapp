@@ -44,6 +44,7 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             kwargs["data_files"] = DataFile.objects.filter(settings=report_settings)
             kwargs["columns_form"] = ColumnsForm()
             kwargs["checked_columns"] = report_settings.columns
+            kwargs["info_blocks"] = report_settings.info_blocks
         except ReportSettings.DoesNotExist:
             pass
         except DataFile.DoesNotExist:
@@ -78,6 +79,8 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
                                         "Please check the details.")
                 return redirect("report")
             settings.columns = columns
+            info_blocks = request.POST.get("info_blocks")
+            settings.info_blocks = bool(info_blocks)
             settings.save()
 
             # Generate report
@@ -93,7 +96,8 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
                     return redirect("report")
 
                 trees.fit(columns)
-                report = trees.generate_report(output_path=join(MEDIA_ROOT, 'trees'), to_file=False)
+                report = trees.generate_report(output_path=join(MEDIA_ROOT, 'trees'), to_file=False,
+                                               block_info=settings.info_blocks)
 
                 # Creating http response
                 response = HttpResponse(report, content_type='application/pdf')
