@@ -16,6 +16,7 @@ class LoginView(bracesviews.AnonymousRequiredMixin,
                 authviews.LoginView):
     template_name = "accounts/login.html"
     form_class = forms.LoginForm
+    success_url = reverse_lazy('report')
 
     def form_valid(self, form):
         redirect = super(LoginView, self).form_valid(form)

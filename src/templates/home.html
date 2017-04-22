@@ -24,16 +24,16 @@
       <div class="row">
         <div class="col-md-8 col-sm-8">
           <h1>{% include "_brandname.html" %}</h1>
-          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+          <p>Discover patterns from your FreeStyle device.</p>
 	  <a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up for Free!</a>
         </div>
         <div class="col-md-4 col-sm-4">
-
         </div>
       </div>
     </div>
   </div>
 {% endblock splash %}
+
 
 {% block container %}
 <!-- Benefits of the Django application -->
@@ -42,24 +42,31 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+      <h2>Generation of reports</h2>
+      <p>  Glycemic Patterns is an application that recognizes patterns in glucose data collected by blood sugar monitoring
+    devices. Upload your files obtained with your FreeStyle device and download the PDF report to know the patterns
+      of your blood sugar levels. </p>
+      <!-- <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
     </div>
     <div class="col-lg-4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+      <h2>Customization</h2>
+      <p>The main purpose of Glycemic Patterns application is to help physicians and diabetic patient to identify risk
+     situations or disorders in the amount of glucose in the blood. Decide which information do you want to use for the
+     recognition of patterns and if you want to include
+      additional statistics to go deeper in your historical data. </p>
+      <!-- <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
     </div>
     <div class="col-lg-4">
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-      <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+      <h2>Machine learning</h2>
+      <p> The application generate a decision tree for each condition (Hyperglycemia, severe hyperglycemia and hypoglycemia)
+     and recognize the patterns that are human-readable and presented in a report. It trusts in decision trees for the
+      pattern recognition and they are included in the report so that you can see where the patterns are coming from</p>
+      <!--  <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
     </div>
   </div>
 </div>
 
-{% endblock container %}
+{% endblock container %} -->
 
 {% block scripts %}
 <script src="{% static 'site/js/site.js' %}"></script>
