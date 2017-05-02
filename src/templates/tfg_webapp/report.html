@@ -68,6 +68,23 @@
                  </div>
                  <div class="panel panel-default">
                     <div class="panel-heading">
+                        <h3><strong>Select the language of the report </strong></h3>
+                    </div>
+                    <div class="panel-body">
+                       <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-primary {% if language == 'en' %}active{% endif %}">
+                            <input type="radio" name="language" value="en" autocomplete="off">
+                            <span class="flag-icon flag-icon-us"></span>  English
+                          </label>
+                          <label class="btn btn-primary {% if language == 'es' %}active{% endif %}">
+                            <input type="radio" name="language" value="es" autocomplete="off">
+                            <span class="flag-icon flag-icon-es"></span>  Español
+                          </label>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
                         <h3><strong>Configure other settings of the report</strong></h3>
                     </div>
                     <div class="panel-body">

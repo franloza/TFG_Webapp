@@ -28,6 +28,7 @@ class ReportSettings(models.Model):
     )
     columns = MultiSelectField(choices=COLUMN_TYPES, default="Mean,Std,Max,Min,MAGE")
     info_blocks = models.BooleanField(default=True)
+    language = models.CharField(max_length=2, default='en')
 
 
 class DataFile(models.Model):
@@ -40,6 +41,7 @@ class DataFile(models.Model):
 
     def __str__(self):
         return "{}". format(os.path.basename(self.data_file.name))
+
 
 @receiver(models.signals.post_delete, sender=DataFile)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

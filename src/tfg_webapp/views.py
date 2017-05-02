@@ -44,6 +44,7 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             kwargs["columns_form"] = ColumnsForm()
             kwargs["checked_columns"] = report_settings.columns
             kwargs["info_blocks"] = report_settings.info_blocks
+            kwargs["language"] = report_settings.language
         except ReportSettings.DoesNotExist:
             pass
         except DataFile.DoesNotExist:
@@ -79,6 +80,8 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
                 return redirect("report")
             settings.columns = columns
             info_blocks = request.POST.get("info_blocks")
+            language = request.POST.get("language")
+            settings.language = str(language)
             settings.info_blocks = bool(info_blocks)
             settings.save()
 
@@ -96,7 +99,7 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
 
                 trees.fit(columns)
                 report = trees.generate_report(output_path=join(MEDIA_ROOT, 'trees'), to_file=False,
-                                               block_info=settings.info_blocks)
+                                               block_info=settings.info_blocks, language=language)
 
                 # Creating http response
                 response = HttpResponse(report, content_type='application/pdf')
