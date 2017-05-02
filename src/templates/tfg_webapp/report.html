@@ -21,7 +21,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3><strong> Data files </strong></h3>
+                    <h3><strong> Upload the text files obtained from your device </strong></h3>
 	            </div>
 	            <div class="panel-body">
 	                 <!-- List of uploaded data_files -->
@@ -53,7 +53,7 @@
             <form method="post">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3><strong>Features</strong></h3>
+                        <h3><strong>Select the glucose variables that you have available </strong></h3>
                     </div>
                     <div class="panel-body">
                         {% csrf_token %}
@@ -68,18 +68,23 @@
                  </div>
                  <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3><strong>Settings</strong></h3>
+                        <h3><strong>Configure other settings of the report</strong></h3>
                     </div>
                     <div class="panel-body">
                       <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-primary {% if info_blocks %} active {% endif %}">
-                               <input id="id_info_blocks" name="info_blocks" type="checkbox" {% if info_blocks %} checked {% endif %}> Include block information
+                               <input id="id_info_blocks" name="info_blocks" type="checkbox" {% if info_blocks %} checked {% endif %}> Include information of days and blocks
                             </label>
                          </div>
                     </div>
                      <div class="panel panel-default">
                         <div class="panel-body">
                          <input type="submit" name="generate_report" value="Generate report" class="btn btn-success" {% if not data_files %} disabled {% endif %}>
+                        <div class="progress">
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+                          aria-valuemin="0" aria-valuemax="100" style="width:0%"> This process may take several minutes
+                          </div>
+                        </div>
                         </div>
                      </div>
                  </div>
