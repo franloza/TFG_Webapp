@@ -17,8 +17,8 @@ from os import sep
 
 import logging
 
-
 logger = logging.getLogger("project")
+
 
 class HomePage(generic.TemplateView):
     template_name = "home.html"
@@ -29,7 +29,6 @@ class AboutPage(generic.TemplateView):
 
 
 class ReportPage(LoginRequiredMixin, generic.TemplateView):
-
     template_name = "tfg_webapp/report.html"
     http_method_names = ['get', 'post']
 
@@ -62,7 +61,7 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
 
             if not data_file.is_valid():
                 messages.error(request, "There was a problem with the form. "
-                               "Please check the details.")
+                                        "Please check the details.")
                 data_file = DataFile(settings=settings)
                 data_file_form = forms.DataFileForm(instance=data_file)
                 return super(ReportPage, self).get(request, data_file_form=data_file_form)
@@ -108,22 +107,15 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
                 messages.error(request, "It is necessary to upload a datafile before generating a report")
                 return redirect("report")
 
-
-
-
-    def delete_datafile(request,  *args, **kwargs):
-        pk =  kwargs["pk"]
+    def delete_datafile(request, *args, **kwargs):
+        pk = kwargs["pk"]
         df = DataFile.objects.get(pk=pk)
         user = request.user
         settings = ReportSettings.objects.get(user=user)
-        if(df.settings == settings):
+        if (df.settings == settings):
             df.delete()
             messages.success(request, "Data file deleted")
             logger.info('{} has deleted a data file')
         else:
             messages.error(request, "There was a problem deleting the file. Try again")
         return redirect("report")
-
-
-
-

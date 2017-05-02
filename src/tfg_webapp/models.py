@@ -12,6 +12,7 @@ def generate_filename(self, filename):
     url = '{0}/{1}/{2}'.format('data_files', self.settings.user.profile.slug, filename)
     return url
 
+
 class ReportSettings(models.Model):
 
     COLUMN_TYPES = (('Mean', 'Mean'),

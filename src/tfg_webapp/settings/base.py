@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'easy_thumbnails',
     'multiselectfield',
+    'termsandconditions',
 
     'profiles',
     'accounts',
@@ -90,6 +91,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'termsandconditions.middleware.TermsAndConditionsRedirectMiddleware',
 )
 
 ROOT_URLCONF = 'tfg_webapp.urls'
@@ -138,5 +140,12 @@ MESSAGE_TAGS = {
 AUTH_USER_MODEL = 'authtools.User'
 LOGIN_REDIRECT_URL = reverse_lazy("report")
 LOGIN_URL = reverse_lazy("accounts:login")
+
+# Terms & Conditions (termsandconditions) Settings #######
+DEFAULT_TERMS_SLUG = 'site-terms'
+ACCEPT_TERMS_PATH = '/terms/accept/'
+TERMS_EXCLUDE_URL_PREFIX_LIST = {'/admin', '/terms'}
+TERMS_EXCLUDE_URL_LIST = {'/', 'report', '/logout/'}
+TERMS_BASE_TEMPLATE = 'base_tc.html'
 
 THUMBNAIL_EXTENSION = 'png'     # Or any extn for your thumbnails
