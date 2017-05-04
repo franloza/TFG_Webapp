@@ -81,7 +81,8 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
             settings.columns = columns
             info_blocks = request.POST.get("info_blocks")
             language = request.POST.get("language")
-            settings.language = str(language)
+            if language is not None:
+                settings.language = str(language)
             settings.info_blocks = bool(info_blocks)
             settings.save()
 
@@ -99,7 +100,7 @@ class ReportPage(LoginRequiredMixin, generic.TemplateView):
 
                 trees.fit(columns)
                 report = trees.generate_report(output_path=join(MEDIA_ROOT, 'trees'), to_file=False,
-                                               block_info=settings.info_blocks, language=language)
+                                               block_info=settings.info_blocks, language=settings.language)
 
                 # Creating http response
                 response = HttpResponse(report, content_type='application/pdf')

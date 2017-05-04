@@ -73,11 +73,11 @@
                     <div class="panel-body">
                        <div class="btn-group" data-toggle="buttons">
                           <label class="btn btn-primary {% if language == 'en' %}active{% endif %}">
-                            <input type="radio" name="language" value="en" autocomplete="off">
+                            <input type="radio" name="language" value="en" autocomplete="off" {% if language == 'en' %} checked {% endif %}>
                             <span class="flag-icon flag-icon-us"></span>  English
                           </label>
                           <label class="btn btn-primary {% if language == 'es' %}active{% endif %}">
-                            <input type="radio" name="language" value="es" autocomplete="off">
+                            <input type="radio" name="language" value="es" autocomplete="off"  {% if language == 'en' %} checked {% endif %}>
                             <span class="flag-icon flag-icon-es"></span>  Español
                           </label>
                         </div>
