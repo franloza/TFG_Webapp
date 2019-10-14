@@ -14,8 +14,11 @@ blocks defined by the meals and tries to detect risk situations in the next bloc
 
 ```
 git clone https://github.com/franloza/tfg_webapp.git --recursive
+cd tfg_webapp
 docker-compose up
 ```
+
+Webpage will be available at `localhost:8000`
 
 ### Development
 

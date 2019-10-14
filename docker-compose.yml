@@ -35,12 +35,6 @@ services:
       environment:
         DJANGO_DATABASE_HOST: db
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; ./docker-entrypoint.sh'
-    healthcheck:
-      test: curl --fail http://localhost:8000/health/?format=json || exit 1
-      interval: 1m
-      timeout: 5s
-      retries: 2
-      start_period: 1m
 
 # This task is an example of how to extend existing ones:
 # some_worker:
