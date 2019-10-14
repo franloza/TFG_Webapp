@@ -21,7 +21,7 @@ build
 *.log
 
 # Environment variables
-local.env
+.env
 
 # Django stuff:
 *.mo
@@ -59,3 +59,9 @@ Desktop.ini
 /.idea
 /src/media/data_files/
 /src/media/trees/
+
+# Visual Studio Code
+.vscode
+
+# Virtual Environments
+.venv

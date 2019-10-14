@@ -10,21 +10,21 @@ This project has the following basic apps:
 blocks defined by the meals and tries to detect risk situations in the next block.
 
 
-## Installation
+## Quickstart 
 
-### Quick start
+```
+git clone https://github.com/franloza/tfg_webapp.git --recursive
+docker-compose up
+```
 
-To set up a development environment quickly, first install Python 3. It
-comes with virtualenv built-in. So create a virtual env by:
+### Development
 
-    1. `$ python3 -m venv tfg_webapp`
-    2. `$ . tfg_webapp/bin/activate`
+To set up a development environment quickly, first install Python 3.6. Later,
+install the dependencies using:
 
-Install all dependencies:
+`pipenv install --dev`
 
-    pip install -r requirements.txt
-
-Run migrations:
+You can use a Docker image of PostgreSQL to run the database or SQLlite (See config/local.example.dev). Once you have chosen the database, run migrations:
 
     python manage.py migrate
 
