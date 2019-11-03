@@ -1,5 +1,8 @@
 FROM python:3.6
 ENV PYTHONUNBUFFERED 1
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends graphviz \
+  && rm -rf /var/lib/apt/lists/*
 RUN pip install pipenv
 RUN mkdir -p /root/app/
 RUN mkdir -p /root/logs
